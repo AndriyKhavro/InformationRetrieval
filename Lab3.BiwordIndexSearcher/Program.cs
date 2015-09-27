@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Lab2.InverseIndex;
+using Lab3.BiwordIndex;
 
-namespace Lab2.BooleanSearcher
+namespace Lab3.BiwordIndexSearcher
 {
-    internal class Program
+    class Program
     {
         private static void Main(string[] args)
         {
@@ -12,13 +16,13 @@ namespace Lab2.BooleanSearcher
 
             var documents = DocumentProvider.GetDocuments(inputDirectory);
 
-            var tokenizer = new WordDocumentTokenizer();
+            var tokenizer = new PhraseDocumentTokenizer(new PartOfSpeechTagger());
 
-            var inverseIndex = new InverceIndex<string>(tokenizer);
+            var inverseIndex = new InverceIndex<Phrase>(tokenizer);
 
             inverseIndex.AddDocuments(documents);
 
-            var searcher = new InverseIndex.BooleanSearcher(inverseIndex);
+            var searcher = new PhraseQueryExecutor(inverseIndex);
 
             while (true)
             {

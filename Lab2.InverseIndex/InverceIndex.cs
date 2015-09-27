@@ -6,19 +6,19 @@ namespace Lab2.InverseIndex
     /// <summary>
     /// Includes functionality of incidence matrix
     /// </summary>
-    public class InverceIndex
+    public class InverceIndex<T>
     {
-        private readonly Dictionary<string, HashSet<Document>> _dictionary = new Dictionary<string, HashSet<Document>>();
+        private readonly Dictionary<T, HashSet<Document>> _dictionary = new Dictionary<T, HashSet<Document>>();
 
-        private readonly DocumentTokenizer _tokenizer;
-        private readonly HashSet<Document> _allDocuments = new HashSet<Document>(); 
+        private readonly IDocumentTokenizer<T> _tokenizer;
+        private readonly HashSet<Document> _allDocuments = new HashSet<Document>();
 
-        public InverceIndex(DocumentTokenizer tokenizer)
+        public InverceIndex(IDocumentTokenizer<T> tokenizer)
         {
             _tokenizer = tokenizer;
         }
 
-        public HashSet<Document> GetDocumentSet(string input, bool negate = false)
+        public HashSet<Document> GetDocumentSet(T input, bool negate = false)
         {
             HashSet<Document> result;
             result = _dictionary.TryGetValue(input, out result) ? result : new HashSet<Document>();
@@ -32,10 +32,10 @@ namespace Lab2.InverseIndex
                 Add(document);
             }
         }
-
-        public void Add(Document document)
+        
+        private void Add(Document document)
         {
-            var words = _tokenizer.GetWordsFromText(document.Text).Select(w => w.ToLower());
+            var words = _tokenizer.Tokenize(document.Text);
             foreach (var word in words)
             {
                 Add(word, document);
@@ -44,7 +44,7 @@ namespace Lab2.InverseIndex
             _allDocuments.Add(document);
         }
 
-        private void Add(string term, Document document)
+        private void Add(T term, Document document)
         {
             if (!_dictionary.ContainsKey(term))
             {

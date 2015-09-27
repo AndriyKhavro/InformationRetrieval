@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Lab2.InverseIndex;
 
-namespace Lab2.BooleanSearcher
+namespace Lab3.PositionalIndex
 {
     internal class Program
     {
@@ -14,18 +17,16 @@ namespace Lab2.BooleanSearcher
 
             var tokenizer = new WordDocumentTokenizer();
 
-            var inverseIndex = new InverceIndex<string>(tokenizer);
+            var positionalIndex = new PositionalIndex(tokenizer);
 
-            inverseIndex.AddDocuments(documents);
-
-            var searcher = new InverseIndex.BooleanSearcher(inverseIndex);
-
+            positionalIndex.AddDocuments(documents);
+            
             while (true)
             {
                 var input = Console.ReadLine();
                 if (!string.IsNullOrWhiteSpace(input))
                 {
-                    var resultDocs = searcher.ProcessQuery(input);
+                    var resultDocs = positionalIndex.FindDocuments(input);
                     Console.WriteLine(string.Join("\n", resultDocs.Select(d => d.FilePath)));
                 }
             }

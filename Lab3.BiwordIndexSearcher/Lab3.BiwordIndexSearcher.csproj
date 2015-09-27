@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{698DFCBE-BDEF-4144-B15A-7760B774CA1F}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{CB6CC22F-4639-43D1-AE46-6ADED80946CC}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lab2.InverseIndex</RootNamespace>
-    <AssemblyName>Lab2.InverseIndex</AssemblyName>
+    <RootNamespace>Lab3.BiwordIndexSearcher</RootNamespace>
+    <AssemblyName>Lab3.BiwordIndexSearcher</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -40,15 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BooleanSearcher.cs" />
-    <Compile Include="Document.cs" />
-    <Compile Include="DocumentProvider.cs" />
-    <Compile Include="HashSetHelper.cs" />
-    <Compile Include="Operator.cs" />
-    <Compile Include="WordDocumentTokenizer.cs" />
-    <Compile Include="IDocumentTokenizer.cs" />
-    <Compile Include="InverceIndex.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Lab2.InverseIndex\Lab2.InverseIndex.csproj">
+      <Project>{698dfcbe-bdef-4144-b15a-7760b774ca1f}</Project>
+      <Name>Lab2.InverseIndex</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lab3.Indexes\Lab3.BiwordIndex.csproj">
+      <Project>{de4ff6e1-bd34-4713-8c02-45fccfc372bc}</Project>
+      <Name>Lab3.BiwordIndex</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

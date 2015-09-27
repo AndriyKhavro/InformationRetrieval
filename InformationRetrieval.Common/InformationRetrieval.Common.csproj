@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{698DFCBE-BDEF-4144-B15A-7760B774CA1F}</ProjectGuid>
+    <ProjectGuid>{21BF9919-7EA4-41FF-8A88-86ACEC3B7ECC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lab2.InverseIndex</RootNamespace>
-    <AssemblyName>Lab2.InverseIndex</AssemblyName>
+    <RootNamespace>InformationRetrieval.Common</RootNamespace>
+    <AssemblyName>InformationRetrieval.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,14 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BooleanSearcher.cs" />
-    <Compile Include="Document.cs" />
-    <Compile Include="DocumentProvider.cs" />
-    <Compile Include="HashSetHelper.cs" />
-    <Compile Include="Operator.cs" />
-    <Compile Include="WordDocumentTokenizer.cs" />
-    <Compile Include="IDocumentTokenizer.cs" />
-    <Compile Include="InverceIndex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

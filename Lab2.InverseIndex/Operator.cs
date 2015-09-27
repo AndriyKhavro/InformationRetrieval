@@ -1,4 +1,4 @@
-﻿namespace Lab2.BooleanSearcher
+﻿namespace Lab2.InverseIndex
 {
     public enum Operator
     {
