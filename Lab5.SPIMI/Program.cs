@@ -10,7 +10,7 @@ namespace Lab5.SPIMI
 {
     internal class Program
     {
-        private const int TermsInBlock = 100;
+        private const int TermsInBlock = 10000;
         private const char SplitSymbol = '\t';
         private const string InputDir = @"C:\university\6\ir\files";
         private const string OutputDir = @"C:\university\6\ir\OutputDir";
@@ -23,7 +23,7 @@ namespace Lab5.SPIMI
 
             int i = 1;
 
-            //we write all terms dictionary in files
+            //we write all terms dictionaries in files
             foreach (var outputText in termBlocks.Select(BlockToText))
             {
                 File.WriteAllText(Path.Combine(OutputDir, $"{i++}.txt"), outputText);
