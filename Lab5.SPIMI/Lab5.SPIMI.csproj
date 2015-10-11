@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CB6CC22F-4639-43D1-AE46-6ADED80946CC}</ProjectGuid>
+    <ProjectGuid>{F947115D-B009-4104-B89D-CC4ED1F3BC3A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lab3.BiwordIndexSearcher</RootNamespace>
-    <AssemblyName>Lab3.BiwordIndexSearcher</AssemblyName>
+    <RootNamespace>Lab5.SPIMI</RootNamespace>
+    <AssemblyName>Lab5.SPIMI</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,13 +22,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -46,16 +47,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Lab2.InverseIndex\InformationRetrieval.Common.csproj">
       <Project>{698dfcbe-bdef-4144-b15a-7760b774ca1f}</Project>
       <Name>InformationRetrieval.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Lab3.BiwordIndex\Lab3.BiwordIndex.csproj">
-      <Project>{de4ff6e1-bd34-4713-8c02-45fccfc372bc}</Project>
-      <Name>Lab3.BiwordIndex</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

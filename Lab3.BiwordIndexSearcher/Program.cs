@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Lab2.InverseIndex;
+using InformationRetrieval.Common;
 using Lab3.BiwordIndex;
 
 namespace Lab3.BiwordIndexSearcher

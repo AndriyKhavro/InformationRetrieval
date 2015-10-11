@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Lab2.InverseIndex
+namespace InformationRetrieval.Common
 {
     /// <summary>
     /// Includes functionality of incidence matrix

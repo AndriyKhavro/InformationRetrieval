@@ -1,4 +1,4 @@
-﻿namespace Lab2.InverseIndex
+﻿namespace InformationRetrieval.Common
 {
     public class Document
     {

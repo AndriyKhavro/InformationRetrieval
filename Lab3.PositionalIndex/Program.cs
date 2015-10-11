@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Lab2.InverseIndex;
+using InformationRetrieval.Common;
 
 namespace Lab3.PositionalIndex
 {

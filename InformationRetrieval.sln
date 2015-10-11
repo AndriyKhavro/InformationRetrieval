@@ -7,13 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab1", "Lab1\Lab1.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab2.BooleanSearcher", "Lab2.BooleanSearcher\Lab2.BooleanSearcher.csproj", "{61D3F748-6B79-4879-9B1E-4DCF1B843FE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab2.InverseIndex", "Lab2.InverseIndex\Lab2.InverseIndex.csproj", "{698DFCBE-BDEF-4144-B15A-7760B774CA1F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InformationRetrieval.Common", "Lab2.InverseIndex\InformationRetrieval.Common.csproj", "{698DFCBE-BDEF-4144-B15A-7760B774CA1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab3.BiwordIndex", "Lab3.Indexes\Lab3.BiwordIndex.csproj", "{DE4FF6E1-BD34-4713-8C02-45FCCFC372BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab3.BiwordIndex", "Lab3.BiwordIndex\Lab3.BiwordIndex.csproj", "{DE4FF6E1-BD34-4713-8C02-45FCCFC372BC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab3.BiwordIndexSearcher", "Lab3.BiwordIndexSearcher\Lab3.BiwordIndexSearcher.csproj", "{CB6CC22F-4639-43D1-AE46-6ADED80946CC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab3.PositionalIndex", "Lab3.PositionalIndex\Lab3.PositionalIndex.csproj", "{D25427D4-0B48-4471-B46F-E44EEAC3BE3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab5.SPIMI", "Lab5.SPIMI\Lab5.SPIMI.csproj", "{F947115D-B009-4104-B89D-CC4ED1F3BC3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{D25427D4-0B48-4471-B46F-E44EEAC3BE3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D25427D4-0B48-4471-B46F-E44EEAC3BE3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D25427D4-0B48-4471-B46F-E44EEAC3BE3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F947115D-B009-4104-B89D-CC4ED1F3BC3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F947115D-B009-4104-B89D-CC4ED1F3BC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F947115D-B009-4104-B89D-CC4ED1F3BC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F947115D-B009-4104-B89D-CC4ED1F3BC3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

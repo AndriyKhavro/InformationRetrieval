@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Lab2.InverseIndex;
+using InformationRetrieval.Common;
 
 namespace Lab3.BiwordIndex
 {

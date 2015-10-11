@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Lab2.InverseIndex
+namespace InformationRetrieval.Common
 {
     public class WordDocumentTokenizer : IDocumentTokenizer<string>
     {

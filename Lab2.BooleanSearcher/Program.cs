@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Lab2.InverseIndex;
+using InformationRetrieval.Common;
 
 namespace Lab2.BooleanSearcher
 {
@@ -18,7 +18,7 @@ namespace Lab2.BooleanSearcher
 
             inverseIndex.AddDocuments(documents);
 
-            var searcher = new InverseIndex.BooleanSearcher(inverseIndex);
+            var searcher = new InformationRetrieval.Common.BooleanSearcher(inverseIndex);
 
             while (true)
             {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Lab2.InverseIndex
+namespace InformationRetrieval.Common
 {
     public class BooleanSearcher
     {

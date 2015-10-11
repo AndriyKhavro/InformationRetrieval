@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace Lab2.InverseIndex
+namespace InformationRetrieval.Common
 {
     public class DocumentProvider
     {

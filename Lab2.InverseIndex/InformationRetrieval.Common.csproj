@@ -7,8 +7,8 @@
     <ProjectGuid>{698DFCBE-BDEF-4144-B15A-7760B774CA1F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Lab2.InverseIndex</RootNamespace>
-    <AssemblyName>Lab2.InverseIndex</AssemblyName>
+    <RootNamespace>InformationRetrieval.Common</RootNamespace>
+    <AssemblyName>InformationRetrieval.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
