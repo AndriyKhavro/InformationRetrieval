@@ -10,7 +10,7 @@ namespace Lab5.SPIMI
 {
     internal class Program
     {
-        private const int TermsInBlock = 1000;
+        private const int TermsInBlock = 100;
         private const char SplitSymbol = '\t';
         private const string InputDir = @"C:\university\6\ir\files";
         private const string OutputDir = @"C:\university\6\ir\OutputDir";
@@ -48,35 +48,46 @@ namespace Lab5.SPIMI
             Console.ReadKey();
         }
 
-        //probably not the most efficient implementation
         private static IEnumerable<string> MergeBlocks(IEnumerable<IEnumerable<KeyValuePair<string, HashSet<string>>>> blocks)
         {
             var enumerators =
                 blocks.Select(b => b.GetEnumerator()).Where(e => e.MoveNext()).OrderBy(e => e.Current.Key).ToArray();
-            string currentTerm = null;
-            var currentSet = new HashSet<string>();
             while (enumerators.Any())
             {
                 var firstEnumerator = enumerators.First();
-
-                if (currentTerm == firstEnumerator.Current.Key)
+                string currentTerm = firstEnumerator.Current.Key;
+                var currentSet = new HashSet<string>(firstEnumerator.Current.Value);
+                if (enumerators.Length == 1)
                 {
-                    currentSet.UnionWith(firstEnumerator.Current.Value);
+                    yield return GetBlockLine(currentTerm, currentSet);
+                    if (!firstEnumerator.MoveNext())
+                    {
+                        yield break;
+                    }
                 }
-
                 else
                 {
-                    if (currentTerm != null)
+                    int i = 1;
+                    for (; i < enumerators.Length; i++)
                     {
-                        yield return GetBlockLine(currentTerm, currentSet);
-                    }
-                    currentTerm = firstEnumerator.Current.Key;
-                    currentSet = new HashSet<string>(firstEnumerator.Current.Value);
-                }
+                        if (currentTerm == enumerators[i].Current.Key)
+                        {
+                            currentSet.UnionWith(enumerators[i].Current.Value);
+                        }
 
-                enumerators = firstEnumerator.MoveNext()
-                    ? enumerators.OrderBy(e => e.Current.Key).ToArray()
-                    : enumerators.Skip(1).OrderBy(e => e.Current.Key).ToArray();
+                        else
+                        {
+                            break;
+                        }
+                    }
+
+                    yield return GetBlockLine(currentTerm, currentSet);
+
+                    enumerators = enumerators.Take(i).Where(e => e.MoveNext())
+                        .Concat(enumerators.Skip(i))
+                        .OrderBy(e => e.Current.Key)
+                        .ToArray();
+                }
             }
         }
 
