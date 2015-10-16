@@ -19,7 +19,7 @@ namespace Lab5.SPIMI
 
             var indexSerializer = IndexSerializerFactory.Create(Compression.No);
 
-            var termBlocks = GetTermBlocks(docs);
+            var termBlocks = GetTermBlocks(docs, new DocumentIdTracker(OutputDir));
 
             int i = 1;
 
@@ -45,7 +45,7 @@ namespace Lab5.SPIMI
             Console.ReadKey();
         }
 
-        private static IEnumerable<KeyValuePair<string, HashSet<string>>> MergeBlocks(IEnumerable<IEnumerable<KeyValuePair<string, HashSet<string>>>> blocks)
+        private static IEnumerable<KeyValuePair<string, HashSet<int>>> MergeBlocks(IEnumerable<IEnumerable<KeyValuePair<string, HashSet<int>>>> blocks)
         {
             var enumerators =
                 blocks.Select(b => b.GetEnumerator()).Where(e => e.MoveNext()).OrderBy(e => e.Current.Key).ToArray();
@@ -53,10 +53,10 @@ namespace Lab5.SPIMI
             {
                 var firstEnumerator = enumerators.First();
                 string currentTerm = firstEnumerator.Current.Key;
-                var currentSet = new HashSet<string>(firstEnumerator.Current.Value);
+                var currentSet = new HashSet<int>(firstEnumerator.Current.Value);
                 if (enumerators.Length == 1)
                 {
-                    yield return new KeyValuePair<string, HashSet<string>>(currentTerm, currentSet);
+                    yield return new KeyValuePair<string, HashSet<int>>(currentTerm, currentSet);
                     if (!firstEnumerator.MoveNext())
                     {
                         yield break;
@@ -78,7 +78,7 @@ namespace Lab5.SPIMI
                         }
                     }
 
-                    yield return new KeyValuePair<string, HashSet<string>>(currentTerm, currentSet);
+                    yield return new KeyValuePair<string, HashSet<int>>(currentTerm, currentSet);
 
                     enumerators = enumerators.Take(i).Where(e => e.MoveNext())
                         .Concat(enumerators.Skip(i))
@@ -88,28 +88,29 @@ namespace Lab5.SPIMI
             }
         }
 
-        private static IEnumerable<Dictionary<string, HashSet<string>>> GetTermBlocks(IEnumerable<Document> documents)
+        private static IEnumerable<Dictionary<string, HashSet<int>>> GetTermBlocks(IEnumerable<Document> documents, DocumentIdTracker idTracker)
         {
             //key: term, value: set of document paths
-            var termDictionary = new Dictionary<string, HashSet<string>>();
+            var termDictionary = new Dictionary<string, HashSet<int>>();
 
             var tokenizer = new WordDocumentTokenizer();
 
             foreach (var doc in documents)
             {
+                int id = idTracker.TrackDocumentId(doc);
                 foreach (var term in tokenizer.Tokenize(doc.Text))
                 {
                     if (!termDictionary.ContainsKey(term))
                     {
-                        termDictionary[term] = new HashSet<string>();
+                        termDictionary[term] = new HashSet<int>();
                     }
 
-                    termDictionary[term].Add(doc.FilePath);
+                    termDictionary[term].Add(id);
 
                     if (termDictionary.Count >= TermsInBlock)
                     {
                         yield return termDictionary;
-                        termDictionary = new Dictionary<string, HashSet<string>>();
+                        termDictionary = new Dictionary<string, HashSet<int>>();
                     }
                 }
             }

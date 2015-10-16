@@ -7,12 +7,12 @@ namespace Lab6.IndexCompression
     public class SimpleIndexSerializer : IIndexSerializer
     {
         private const char SplitSymbol = '\t';
-        public void SerializeToFile(string filePath, Dictionary<string, HashSet<string>> termBlock)
+        public void SerializeToFile(string filePath, Dictionary<string, HashSet<int>> termBlock)
         {
             File.WriteAllText(filePath, BlockToText(termBlock));
         }
 
-        public void SerializeToFileByLine(string filePath, IEnumerable<KeyValuePair<string, HashSet<string>>> pairs)
+        public void SerializeToFileByLine(string filePath, IEnumerable<KeyValuePair<string, HashSet<int>>> pairs)
         {
             using (var streamWriter = new StreamWriter(filePath))
             {
@@ -23,7 +23,7 @@ namespace Lab6.IndexCompression
             }
         }
 
-        public IEnumerable<KeyValuePair<string, HashSet<string>>> DeserializeByLine(string filePath)
+        public IEnumerable<KeyValuePair<string, HashSet<int>>> DeserializeByLine(string filePath)
         {
             using (var file = new StreamReader(filePath))
             {
@@ -35,7 +35,7 @@ namespace Lab6.IndexCompression
             }
         }
 
-        private static string BlockToText(Dictionary<string, HashSet<string>> block)
+        private static string BlockToText(Dictionary<string, HashSet<int>> block)
         {
             return string.Join("\n",
                 block.OrderBy(o => o.Key)
@@ -44,16 +44,16 @@ namespace Lab6.IndexCompression
                             GetBlockLine(o.Key, o.Value)));
         }
 
-        private static string GetBlockLine(string term, HashSet<string> set)
+        private static string GetBlockLine(string term, HashSet<int> set)
         {
             return $"{term}{SplitSymbol}{string.Join(SplitSymbol.ToString(), set)}";
         }
 
-        private static KeyValuePair<string, HashSet<string>> LineToPair(string line)
+        private static KeyValuePair<string, HashSet<int>> LineToPair(string line)
         {
             var splittedLine = line.Split(SplitSymbol);
-            return new KeyValuePair<string, HashSet<string>>(splittedLine[0],
-                new HashSet<string>(splittedLine.Skip(1)));
+            return new KeyValuePair<string, HashSet<int>>(splittedLine[0],
+                new HashSet<int>(splittedLine.Skip(1).Select(int.Parse)));
         }
 
     }
