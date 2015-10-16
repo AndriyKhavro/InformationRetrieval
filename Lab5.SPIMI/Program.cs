@@ -9,7 +9,7 @@ namespace Lab5.SPIMI
 {
     internal class Program
     {
-        private const int TermsInBlock = 100;
+        private const int TermsInBlock = 10000;
         private const string InputDir = @"D:\univ\files";
         private const string OutputDir = @"D:\univ\output";
 
