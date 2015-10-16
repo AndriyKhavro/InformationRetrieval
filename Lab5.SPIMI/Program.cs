@@ -2,44 +2,41 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using InformationRetrieval.Common;
+using Lab6.IndexCompression;
 
 namespace Lab5.SPIMI
 {
     internal class Program
     {
-        private const int TermsInBlock = 10000;
-        private const char SplitSymbol = '\t';
-        private const string InputDir = @"C:\university\6\ir\files";
-        private const string OutputDir = @"C:\university\6\ir\OutputDir";
+        private const int TermsInBlock = 100;
+        private const string InputDir = @"D:\univ\files";
+        private const string OutputDir = @"D:\univ\output";
 
         private static void Main(string[] args)
         {
             var docs = DocumentProvider.GetDocuments(InputDir);
+
+            var indexSerializer = IndexSerializerFactory.Create(Compression.No);
 
             var termBlocks = GetTermBlocks(docs);
 
             int i = 1;
 
             //we write all terms dictionaries in files
-            foreach (var outputText in termBlocks.Select(BlockToText))
+            foreach (var termBlock in termBlocks)
             {
-                File.WriteAllText(Path.Combine(OutputDir, $"{i++}.txt"), outputText);
+                indexSerializer.SerializeToFile(Path.Combine(OutputDir, $"{i++}.txt"), termBlock);
             }
 
             //and then we just need to merge it simulteneously reading from all created files
             var fileNames = Enumerable.Range(1, i-1).Select(num => Path.Combine(OutputDir, $"{num}.txt")).ToArray();
 
-            var mergedLines = MergeBlocks(fileNames.Select(file => ReadFileByLine(file).Select(line =>
-            {
-                var splittedLine = line.Split(SplitSymbol);
-                return new KeyValuePair<string, HashSet<string>>(splittedLine[0],
-                    new HashSet<string>(splittedLine.Skip(1)));
-            })));
 
-            WriteToFileByLine(mergedLines, Path.Combine(OutputDir, "output.txt"));
+            var mergedPairs = MergeBlocks(fileNames.Select(file => indexSerializer.DeserializeByLine(file)));
+
+            indexSerializer.SerializeToFileByLine(Path.Combine(OutputDir, "output.txt"), mergedPairs);
+
             foreach (var fileName in fileNames)
             {
                 File.Delete(fileName);
@@ -48,7 +45,7 @@ namespace Lab5.SPIMI
             Console.ReadKey();
         }
 
-        private static IEnumerable<string> MergeBlocks(IEnumerable<IEnumerable<KeyValuePair<string, HashSet<string>>>> blocks)
+        private static IEnumerable<KeyValuePair<string, HashSet<string>>> MergeBlocks(IEnumerable<IEnumerable<KeyValuePair<string, HashSet<string>>>> blocks)
         {
             var enumerators =
                 blocks.Select(b => b.GetEnumerator()).Where(e => e.MoveNext()).OrderBy(e => e.Current.Key).ToArray();
@@ -59,7 +56,7 @@ namespace Lab5.SPIMI
                 var currentSet = new HashSet<string>(firstEnumerator.Current.Value);
                 if (enumerators.Length == 1)
                 {
-                    yield return GetBlockLine(currentTerm, currentSet);
+                    yield return new KeyValuePair<string, HashSet<string>>(currentTerm, currentSet);
                     if (!firstEnumerator.MoveNext())
                     {
                         yield break;
@@ -81,7 +78,7 @@ namespace Lab5.SPIMI
                         }
                     }
 
-                    yield return GetBlockLine(currentTerm, currentSet);
+                    yield return new KeyValuePair<string, HashSet<string>>(currentTerm, currentSet);
 
                     enumerators = enumerators.Take(i).Where(e => e.MoveNext())
                         .Concat(enumerators.Skip(i))
@@ -89,43 +86,6 @@ namespace Lab5.SPIMI
                         .ToArray();
                 }
             }
-        }
-
-        private static void WriteToFileByLine(IEnumerable<string> lines, string path)
-        {
-            using (var streamWriter = new StreamWriter(path))
-            {
-                foreach (var line in lines)
-                {
-                    streamWriter.WriteLine(line);
-                }
-            }
-        }
-
-        private static IEnumerable<string> ReadFileByLine(string fileName)
-        {
-            using (var file = new StreamReader(fileName))
-            {
-                string line;
-                while ((line = file.ReadLine()) != null)
-                {
-                    yield return line;
-                }
-            }
-        } 
-
-        private static string BlockToText(Dictionary<string, HashSet<string>> block)
-        {
-            return string.Join("\n",
-                block.OrderBy(o => o.Key)
-                    .Select(
-                        o =>
-                            GetBlockLine(o.Key, o.Value)));
-        }
-
-        private static string GetBlockLine(string term, HashSet<string> set)
-        {
-            return $"{term}{SplitSymbol}{string.Join(SplitSymbol.ToString(), set)}";
         }
 
         private static IEnumerable<Dictionary<string, HashSet<string>>> GetTermBlocks(IEnumerable<Document> documents)
