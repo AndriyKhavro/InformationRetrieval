@@ -17,6 +17,10 @@ namespace Lab5.SPIMI
         public DocumentIdTracker(string outputDir)
         {
             _documentIdFile = Path.Combine(outputDir, "documentIds.txt");
+            if (File.Exists(_documentIdFile))
+            {
+                File.Delete(_documentIdFile);
+            }
         }
 
         public int TrackDocumentId(Document document)

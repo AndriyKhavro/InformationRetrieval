@@ -1,0 +1,91 @@
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+namespace Lab6.IndexCompression
+{
+    public class CompressingIndexSerializer : IIndexSerializer
+    {
+        //we store dictionary and postings in two separate files
+        private const string DictionaryFileSuffix = "dictionary.txt";
+        private const string PostingsFileSuffix = "postings";
+        private readonly VariableByteNumberEncoder _encoder = new VariableByteNumberEncoder();
+
+        public void SerializeToFile(string filePath, Dictionary<string, HashSet<int>> termBlock)
+        {
+            SerializeToFileByLine(filePath, termBlock.OrderBy(pair => pair.Key));
+        }
+
+        public void SerializeToFileByLine(string filePath, IEnumerable<KeyValuePair<string, HashSet<int>>> pairs)
+        {
+            using (var dictionaryStreamWriter = new StreamWriter(GetDictionaryFilePath(filePath)))
+            using (var postingsStream = new FileStream(GetPostingsFilePath(filePath), FileMode.Create))
+            {
+                foreach (var pair in pairs)
+                {
+                    dictionaryStreamWriter.WriteLine(pair.Key);
+                    var bytes = _encoder.EncodeNumbers(GetNumbersForEncoding(pair.Value));
+                    postingsStream.Write(bytes, 0, bytes.Length);
+                }
+            }
+        }
+
+        public IEnumerable<KeyValuePair<string, HashSet<int>>> DeserializeByLine(string filePath)
+        {
+            using (var dictionaryStreamReader = new StreamReader(GetDictionaryFilePath(filePath)))
+            using (var postingsStream = new FileStream(GetPostingsFilePath(filePath), FileMode.Open))
+            {
+                var postingSet = new HashSet<int>();
+                int prev = 0;
+                //We read postingsStream until we find encoded zero. Than we switch to the next term. Keeping in mind that we store difference between numbers
+                foreach (var value in _encoder.DecodeNumbers(ReadByByte(postingsStream)))
+                {
+                    if (value == 0)
+                    {
+                        yield return
+                            new KeyValuePair<string, HashSet<int>>(dictionaryStreamReader.ReadLine(), postingSet);
+                        postingSet = new HashSet<int>();
+                        prev = 0;
+                    }
+                    else
+                    {
+                        prev += value;
+                        postingSet.Add(prev);
+                    }
+                }
+            }
+        }
+
+        private static IEnumerable<byte> ReadByByte(FileStream stream)
+        {
+            int x;
+            while ((x = stream.ReadByte()) != -1)
+            {
+                yield return (byte) x;
+            }
+        }
+
+        private static string GetDictionaryFilePath(string baseFilePath)
+        {
+            return $"{baseFilePath}.{DictionaryFileSuffix}";
+        }
+
+        private static string GetPostingsFilePath(string baseFilePath)
+        {
+            return $"{baseFilePath}.{PostingsFileSuffix}";
+        }
+
+        //returns difference between numbers to reduce number of bytes. separates sets by zeros
+        private static IEnumerable<int> GetNumbersForEncoding(HashSet<int> postingSet)
+        {
+            int prev = 0;
+            foreach (var i in postingSet.OrderBy(i => i))
+            {
+                yield return i - prev;
+                prev = i;
+            }
+
+            yield return 0;
+        } 
+    }
+}

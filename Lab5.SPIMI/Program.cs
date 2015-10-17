@@ -10,14 +10,14 @@ namespace Lab5.SPIMI
     internal class Program
     {
         private const int TermsInBlock = 10000;
-        private const string InputDir = @"D:\univ\files";
-        private const string OutputDir = @"D:\univ\output";
+        private const string InputDir = @"C:\university\6\ir\files";
+        private const string OutputDir = @"C:\university\6\ir\OutputDir";
 
         private static void Main(string[] args)
         {
             var docs = DocumentProvider.GetDocuments(InputDir);
 
-            var indexSerializer = IndexSerializerFactory.Create(Compression.No);
+            var indexSerializer = IndexSerializerFactory.Create(Compression.Yes);
 
             var termBlocks = GetTermBlocks(docs, new DocumentIdTracker(OutputDir));
 
@@ -31,16 +31,16 @@ namespace Lab5.SPIMI
 
             //and then we just need to merge it simulteneously reading from all created files
             var fileNames = Enumerable.Range(1, i-1).Select(num => Path.Combine(OutputDir, $"{num}.txt")).ToArray();
-
-
+            
             var mergedPairs = MergeBlocks(fileNames.Select(file => indexSerializer.DeserializeByLine(file)));
 
             indexSerializer.SerializeToFileByLine(Path.Combine(OutputDir, "output.txt"), mergedPairs);
 
-            foreach (var fileName in fileNames)
+            foreach (var file in fileNames.SelectMany(fileName => Directory.GetFiles(OutputDir).Where(file => file.StartsWith(fileName))))
             {
-                File.Delete(fileName);
+                File.Delete(file);
             }
+
             Console.WriteLine("End");
             Console.ReadKey();
         }
