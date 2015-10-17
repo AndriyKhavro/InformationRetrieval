@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab1", "Lab1\Lab1.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab2.BooleanSearcher", "Lab2.BooleanSearcher\Lab2.BooleanSearcher.csproj", "{61D3F748-6B79-4879-9B1E-4DCF1B843FE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InformationRetrieval.Common", "Lab2.InverseIndex\InformationRetrieval.Common.csproj", "{698DFCBE-BDEF-4144-B15A-7760B774CA1F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InformationRetrieval.Common", "InformationRetrieval.Common\InformationRetrieval.Common.csproj", "{698DFCBE-BDEF-4144-B15A-7760B774CA1F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab3.BiwordIndex", "Lab3.BiwordIndex\Lab3.BiwordIndex.csproj", "{DE4FF6E1-BD34-4713-8C02-45FCCFC372BC}"
 EndProject
