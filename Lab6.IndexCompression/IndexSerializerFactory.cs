@@ -14,8 +14,10 @@ namespace Lab6.IndexCompression
             {
                 case Compression.No:
                     return new SimpleIndexSerializer();
+                case Compression.Yes:
+                    return new CompressingIndexSerializer();
                 default:
-                    throw new NotImplementedException();
+                    throw new ArgumentOutOfRangeException(nameof(compression), compression, "Unknown compression type");
             }
         }
     }
