@@ -13,30 +13,47 @@ namespace XmlUtility
         static void Main(string[] args)
         {
             var path = @"D:\univ\files";
-            foreach (var file in Directory.GetFiles(path))
+            foreach (var file in Directory.GetFiles(path).Where(f => f.EndsWith(".txt")))
             {
                 var text = File.ReadAllText(file);
-                XmlWriter writer = XmlWriter.Create($"{file}.xml");
-                writer.WriteStartDocument();
-                writer.WriteStartElement("root");
+                var xmlFilePath = $"{file}.xml";
+                File.Delete(xmlFilePath);
+                using (var writer = XmlWriter.Create(xmlFilePath))
+                {
+                    writer.WriteStartDocument();
+                    writer.WriteStartElement("root");
 
-                writer.WriteStartElement("Author");
-                writer.WriteValue("Andrii");
-                writer.WriteEndElement();
+                    writer.WriteStartElement("Author");
 
-                writer.WriteStartElement("Abstract");
-                writer.WriteValue(text.Substring(0, 100));
-                writer.WriteEndElement();
+                    writer.WriteStartAttribute("weight");
+                    writer.WriteValue(0.2);
+                    writer.WriteEndAttribute();
 
-                writer.WriteStartElement("Text");
-                writer.WriteValue(text);
-                writer.WriteEndElement();
+                    writer.WriteValue("Andrii");
+                    writer.WriteEndElement();
 
-                writer.WriteEndElement();
+                    writer.WriteStartElement("Abstract");
 
-                writer.WriteEndDocument();
-                
-                writer.Flush();
+                    writer.WriteStartAttribute("weight");
+                    writer.WriteValue(0.3);
+                    writer.WriteEndAttribute();
+
+                    writer.WriteValue(text.Substring(0, 100));
+                    writer.WriteEndElement();
+
+                    writer.WriteStartElement("Text");
+
+                    writer.WriteStartAttribute("weight");
+                    writer.WriteValue(0.5);
+                    writer.WriteEndAttribute();
+
+                    writer.WriteValue(text);
+                    writer.WriteEndElement();
+
+                    writer.WriteEndElement();
+
+                    writer.WriteEndDocument();
+                }
             }
         }
     }

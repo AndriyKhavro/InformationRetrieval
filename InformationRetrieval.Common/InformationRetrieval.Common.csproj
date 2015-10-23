@@ -46,6 +46,7 @@
     <Compile Include="DocumentZone.cs" />
     <Compile Include="HashSetHelper.cs" />
     <Compile Include="IDocument.cs" />
+    <Compile Include="IDocumentProvider.cs" />
     <Compile Include="Operator.cs" />
     <Compile Include="WordDocumentTokenizer.cs" />
     <Compile Include="IDocumentTokenizer.cs" />

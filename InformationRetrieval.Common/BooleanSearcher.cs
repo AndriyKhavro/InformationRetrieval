@@ -5,19 +5,19 @@ namespace InformationRetrieval.Common
 {
     public class BooleanSearcher
     {
-        private readonly InverceIndex<string, Document> _inverceIndex;
+        private readonly InverceIndex<string, IDocument> _inverceIndex;
 
-        public BooleanSearcher(InverceIndex<string, Document> inverceIndex)
+        public BooleanSearcher(InverceIndex<string, IDocument> inverceIndex)
         {
             _inverceIndex = inverceIndex;
         }
 
-        public HashSet<Document> ProcessQuery(string query)
+        public HashSet<IDocument> ProcessQuery(string query)
         {
             var tokenizer = new WordDocumentTokenizer();
             var terms = tokenizer.Tokenize(query);
 
-            HashSet<Document> currentSet = null;
+            HashSet<IDocument> currentSet = null;
             Operator currentOperator = Operator.AND;
             bool negating = false;
 
@@ -41,7 +41,7 @@ namespace InformationRetrieval.Common
                 }
             }
 
-            return currentSet ?? new HashSet<Document>();
+            return currentSet ?? new HashSet<IDocument>();
         }
     }
 }

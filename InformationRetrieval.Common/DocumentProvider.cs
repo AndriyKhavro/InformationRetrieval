@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace InformationRetrieval.Common
 {
-    public class DocumentProvider
+    public class DocumentProvider 
     {
         public static IEnumerable<Document> GetDocuments(string directory)
         {
