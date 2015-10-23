@@ -5,9 +5,9 @@ namespace Lab3.BiwordIndex
 {
     public class PhraseQueryExecutor
     {
-        private readonly InverceIndex<Phrase> _inverceIndex;
+        private readonly InverceIndex<Phrase, Document> _inverceIndex;
 
-        public PhraseQueryExecutor(InverceIndex<Phrase> inverceIndex)
+        public PhraseQueryExecutor(InverceIndex<Phrase, Document> inverceIndex)
         {
             _inverceIndex = inverceIndex;
         }

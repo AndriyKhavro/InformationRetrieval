@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace InformationRetrieval.Common
@@ -6,26 +7,33 @@ namespace InformationRetrieval.Common
     /// <summary>
     /// Includes functionality of incidence matrix
     /// </summary>
-    public class InverceIndex<T>
+    public class InverceIndex<TTerm, TDocument> where TDocument: IDocument
     {
-        private readonly Dictionary<T, HashSet<Document>> _dictionary = new Dictionary<T, HashSet<Document>>();
+        private readonly Dictionary<TTerm, Dictionary<TDocument, HashSet<DocumentZone>>> _dictionary =
+            new Dictionary<TTerm, Dictionary<TDocument, HashSet<DocumentZone>>>();
 
-        private readonly IDocumentTokenizer<T> _tokenizer;
-        private readonly HashSet<Document> _allDocuments = new HashSet<Document>();
+        private readonly IDocumentTokenizer<TTerm> _tokenizer;
+        private readonly HashSet<TDocument> _allDocuments = new HashSet<TDocument>();
 
-        public InverceIndex(IDocumentTokenizer<T> tokenizer)
+        private const decimal EDGE_VALUE = 0.5m;
+
+        public InverceIndex(IDocumentTokenizer<TTerm> tokenizer)
         {
             _tokenizer = tokenizer;
         }
 
-        public HashSet<Document> GetDocumentSet(T input, bool negate = false)
+        public HashSet<TDocument> GetDocumentSet(TTerm input, bool negate = false)
         {
-            HashSet<Document> result;
-            result = _dictionary.TryGetValue(input, out result) ? result : new HashSet<Document>();
-            return negate ? new HashSet<Document>(_allDocuments.Except(result)) : result;
+            Dictionary<TDocument, HashSet<DocumentZone>> zoneDictionary;
+            var result = _dictionary.TryGetValue(input, out zoneDictionary)
+                ? new HashSet<TDocument>(
+                    zoneDictionary.Where(pair => pair.Value.Sum(zone => zone.Weight) >= EDGE_VALUE)
+                        .Select(pair => pair.Key))
+                : new HashSet<TDocument>();
+            return negate ? new HashSet<TDocument>(_allDocuments.Except(result)) : result;
         }
 
-        public void AddDocuments(IEnumerable<Document> documents)
+        public void AddDocuments(IEnumerable<TDocument> documents)
         {
             foreach (var document in documents)
             {
@@ -33,25 +41,34 @@ namespace InformationRetrieval.Common
             }
         }
         
-        private void Add(Document document)
+        private void Add(TDocument document)
         {
-            var words = _tokenizer.Tokenize(document.Text);
-            foreach (var word in words)
+            //Item1 - zone; Item2 - text;
+            foreach (var tuple in document.Zones)
             {
-                Add(word, document);
-            }
+                var words = _tokenizer.Tokenize(tuple.Item2);
+                foreach (var word in words)
+                {
+                    Add(word, document, tuple.Item1);
+                }
 
-            _allDocuments.Add(document);
+                _allDocuments.Add(document);
+            }
         }
 
-        private void Add(T term, Document document)
+        private void Add(TTerm term, TDocument document, DocumentZone zone)
         {
             if (!_dictionary.ContainsKey(term))
             {
-                _dictionary[term] = new HashSet<Document>();
+                _dictionary[term] = new Dictionary<TDocument, HashSet<DocumentZone>>();
             }
 
-            _dictionary[term].Add(document);
+            if (!_dictionary[term].ContainsKey(document))
+            {
+                _dictionary[term][document] = new HashSet<DocumentZone>();
+            }
+
+            _dictionary[term][document].Add(zone);
         }
     }
 }

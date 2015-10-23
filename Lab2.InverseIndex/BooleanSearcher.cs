@@ -5,9 +5,9 @@ namespace InformationRetrieval.Common
 {
     public class BooleanSearcher
     {
-        private readonly InverceIndex<string> _inverceIndex;
+        private readonly InverceIndex<string, Document> _inverceIndex;
 
-        public BooleanSearcher(InverceIndex<string> inverceIndex)
+        public BooleanSearcher(InverceIndex<string, Document> inverceIndex)
         {
             _inverceIndex = inverceIndex;
         }

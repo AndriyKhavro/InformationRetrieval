@@ -14,7 +14,7 @@ namespace Lab2.BooleanSearcher
 
             var tokenizer = new WordDocumentTokenizer();
 
-            var inverseIndex = new InverceIndex<string>(tokenizer);
+            var inverseIndex = new InverceIndex<string, Document>(tokenizer);
 
             inverseIndex.AddDocuments(documents);
 

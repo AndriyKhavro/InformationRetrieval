@@ -15,7 +15,7 @@ namespace Lab3.BiwordIndexSearcher
 
             var tokenizer = new PhraseDocumentTokenizer(new PartOfSpeechTagger());
 
-            var inverseIndex = new InverceIndex<Phrase>(tokenizer);
+            var inverseIndex = new InverceIndex<Phrase, Document>(tokenizer);
 
             inverseIndex.AddDocuments(documents);
 
