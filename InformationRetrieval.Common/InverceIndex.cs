@@ -15,21 +15,31 @@ namespace InformationRetrieval.Common
         private readonly IDocumentTokenizer<TTerm> _tokenizer;
         private readonly HashSet<TDocument> _allDocuments = new HashSet<TDocument>();
 
-        private const decimal EDGE_VALUE = 0.5m;
-
         public InverceIndex(IDocumentTokenizer<TTerm> tokenizer)
         {
             _tokenizer = tokenizer;
         }
 
-        public HashSet<TDocument> GetDocumentSet(TTerm input, bool negate = false)
+        protected Dictionary<TDocument, HashSet<DocumentZone>> GetZoneDictionary(TTerm input)
         {
             Dictionary<TDocument, HashSet<DocumentZone>> zoneDictionary;
-            var result = _dictionary.TryGetValue(input, out zoneDictionary)
-                ? new HashSet<TDocument>(
-                    zoneDictionary.Where(pair => pair.Value.Sum(zone => zone.Weight) >= EDGE_VALUE)
-                        .Select(pair => pair.Key))
-                : new HashSet<TDocument>();
+            return _dictionary.TryGetValue(input, out zoneDictionary)
+                ? zoneDictionary
+                : new Dictionary<TDocument, HashSet<DocumentZone>>();
+        }
+
+        public IEnumerable<Tuple<TDocument, decimal>> GetDocumentsWithScore(TTerm term)
+        {
+            var zoneDictionary = GetZoneDictionary(term);
+            return
+                zoneDictionary.Select(
+                    pair => new Tuple<TDocument, decimal>(pair.Key, pair.Value.Sum(zone => zone.Weight)));
+        }
+
+        public HashSet<TDocument> GetDocumentSet(TTerm input, bool negate = false)
+        {
+            Dictionary<TDocument, HashSet<DocumentZone>> zoneDictionary = GetZoneDictionary(input);
+            var result = new HashSet<TDocument>(zoneDictionary.Select(pair => pair.Key));
             return negate ? new HashSet<TDocument>(_allDocuments.Except(result)) : result;
         }
 

@@ -12,7 +12,7 @@ namespace XmlUtility
     {
         static void Main(string[] args)
         {
-            var path = @"D:\univ\files";
+            var path = args[0];
             foreach (var file in Directory.GetFiles(path).Where(f => f.EndsWith(".txt")))
             {
                 var text = File.ReadAllText(file);

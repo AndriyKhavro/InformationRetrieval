@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,6 @@ namespace Lab7.ZoneScoring
 
         private static IEnumerable<Tuple<DocumentZone, string>> ParseDocument(string filePath)
         {
-
             using (var reader = XmlReader.Create(filePath))
             {
                 var xElement = XElement.Load(reader);
@@ -32,7 +32,7 @@ namespace Lab7.ZoneScoring
                             e =>
                                 new Tuple<DocumentZone, string>(
                                     new DocumentZone(e.Name.LocalName,
-                                        Decimal.Parse(e.Attribute(XName.Get("weight")).Value)), e.Value)).ToArray();
+                                        Decimal.Parse(e.Attribute(XName.Get("weight")).Value, NumberFormatInfo.InvariantInfo)), e.Value)).ToArray();
             }
         }
     }
