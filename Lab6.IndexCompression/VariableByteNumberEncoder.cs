@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Lab6.IndexCompression
 {
-    public class VariableByteNumberEncoder
+    public class VariableByteNumberEncoder : INumberEncoder
     {
         public byte[] EncodeNumbers(IEnumerable<int> numbers)
         {

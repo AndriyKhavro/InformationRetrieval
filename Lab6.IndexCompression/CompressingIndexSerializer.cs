@@ -9,7 +9,15 @@ namespace Lab6.IndexCompression
         //we store dictionary and postings in two separate files
         private const string DictionaryFileSuffix = "dictionary.txt";
         private const string PostingsFileSuffix = "postings";
-        private readonly VariableByteNumberEncoder _encoder = new VariableByteNumberEncoder();
+        private readonly INumberEncoder _encoder;
+        private readonly IStreamFactory _factory;
+
+        public CompressingIndexSerializer(IStreamFactory factory, INumberEncoder encoder)
+        {
+            _factory = factory;
+            _encoder = encoder;
+        }
+
 
         public void SerializeToFile(string filePath, Dictionary<string, HashSet<int>> termBlock)
         {
@@ -18,8 +26,8 @@ namespace Lab6.IndexCompression
 
         public void SerializeToFileByLine(string filePath, IEnumerable<KeyValuePair<string, HashSet<int>>> pairs)
         {
-            using (var dictionaryStreamWriter = new StreamWriter(GetDictionaryFilePath(filePath)))
-            using (var postingsStream = new FileStream(GetPostingsFilePath(filePath), FileMode.Create))
+            using (var dictionaryStreamWriter = _factory.CreateStreamWriter(GetDictionaryFilePath(filePath)))
+            using (var postingsStream = _factory.CreateFileStream(GetPostingsFilePath(filePath), FileMode.Create))
             {
                 foreach (var pair in pairs)
                 {
@@ -32,8 +40,8 @@ namespace Lab6.IndexCompression
 
         public IEnumerable<KeyValuePair<string, HashSet<int>>> DeserializeByLine(string filePath)
         {
-            using (var dictionaryStreamReader = new StreamReader(GetDictionaryFilePath(filePath)))
-            using (var postingsStream = new FileStream(GetPostingsFilePath(filePath), FileMode.Open))
+            using (var dictionaryStreamReader = _factory.CreateStreamReader(GetDictionaryFilePath(filePath)))
+            using (var postingsStream = _factory.CreateFileStream(GetPostingsFilePath(filePath), FileMode.Open))
             {
                 var postingSet = new HashSet<int>();
                 int prev = 0;
@@ -56,7 +64,7 @@ namespace Lab6.IndexCompression
             }
         }
 
-        private static IEnumerable<byte> ReadByByte(FileStream stream)
+        private static IEnumerable<byte> ReadByByte(Stream stream)
         {
             int x;
             while ((x = stream.ReadByte()) != -1)
