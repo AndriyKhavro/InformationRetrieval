@@ -19,7 +19,7 @@ namespace Lab11.Fb2Search
         }
 
 
-        //assumption: body weight: 0.5; 
+        //assumption: body weight: 0.5; other tags weight: 0.5 / count
         private static IEnumerable<Tuple<DocumentZone, string>> ParseDocument(string filePath)
         {
             using (var reader = XmlReader.Create(filePath))
