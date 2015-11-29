@@ -6,7 +6,7 @@ namespace Lab6.IndexCompression
     {
         //HashSet<int> - documentIds
         void SerializeToFile(string filePath, Dictionary<string, HashSet<int>> termBlock);
-        void SerializeToFileByLine(string filePath, IEnumerable<KeyValuePair<string, HashSet<int>>> pairs);
+        void SerializeToFileByLine(string baseFilePath, IEnumerable<KeyValuePair<string, HashSet<int>>> pairs);
         IEnumerable<KeyValuePair<string, HashSet<int>>> DeserializeByLine(string filePath);
     }
 }

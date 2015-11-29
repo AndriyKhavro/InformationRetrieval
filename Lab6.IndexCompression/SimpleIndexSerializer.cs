@@ -12,9 +12,9 @@ namespace Lab6.IndexCompression
             File.WriteAllText(filePath, BlockToText(termBlock));
         }
 
-        public void SerializeToFileByLine(string filePath, IEnumerable<KeyValuePair<string, HashSet<int>>> pairs)
+        public void SerializeToFileByLine(string baseFilePath, IEnumerable<KeyValuePair<string, HashSet<int>>> pairs)
         {
-            using (var streamWriter = new StreamWriter(filePath))
+            using (var streamWriter = new StreamWriter(baseFilePath))
             {
                 foreach (var pair in pairs)
                 {

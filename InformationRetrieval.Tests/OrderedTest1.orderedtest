@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<OrderedTest name="orderedtest1" storage="c:\projects\informationretrieval\informationretrieval\informationretrieval.tests\orderedtest1.orderedtest" id="7f0c9d6d-b44c-40b8-b135-c7d9dec8bf62" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestLinks>
+    <TestLink id="3b0d4998-5de6-16cf-68c3-6add3d87a607" name="Numbers_after_encoding_and_decoding_should_be_the_same" storage="bin\debug\informationretrieval.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="3bd153b1-31c2-c018-3b70-b4046a8d30a1" name="SerializeToFile_should_write_to_dictionaryStreamWriter_all_keys_from_dictionary_and_write_to_documentIdsStream_all_ids_from_hashSet" storage="bin\debug\informationretrieval.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="854fd8c0-175a-2c4a-b5ec-9cea22fde2d8" name="RhinoMocks_SerializeToFile_should_write_to_streamWriter_all_keys_from_dictionary_and_write_to_fileStream_all_postings_from_hashSet" storage="bin\debug\informationretrieval.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestLinks>
+</OrderedTest>

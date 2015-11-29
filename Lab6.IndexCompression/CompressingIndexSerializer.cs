@@ -7,15 +7,17 @@ namespace Lab6.IndexCompression
     public class CompressingIndexSerializer : IIndexSerializer
     {
         //we store dictionary and postings in two separate files
-        private const string DictionaryFileSuffix = "dictionary.txt";
-        private const string PostingsFileSuffix = "postings";
+        public const string DictionaryFileSuffix = "dictionary.txt";
+        public const string PostingsFileSuffix = "postings";
         private readonly INumberEncoder _encoder;
         private readonly IStreamFactory _factory;
+        private readonly INumberLengthReducer _numberLengthReducer;
 
-        public CompressingIndexSerializer(IStreamFactory factory, INumberEncoder encoder)
+        public CompressingIndexSerializer(IStreamFactory factory, INumberEncoder encoder, INumberLengthReducer numberLengthReducer)
         {
             _factory = factory;
             _encoder = encoder;
+            _numberLengthReducer = numberLengthReducer;
         }
 
 
@@ -24,15 +26,15 @@ namespace Lab6.IndexCompression
             SerializeToFileByLine(filePath, termBlock.OrderBy(pair => pair.Key));
         }
 
-        public void SerializeToFileByLine(string filePath, IEnumerable<KeyValuePair<string, HashSet<int>>> pairs)
+        public void SerializeToFileByLine(string baseFilePath, IEnumerable<KeyValuePair<string, HashSet<int>>> pairs)
         {
-            using (var dictionaryStreamWriter = _factory.CreateStreamWriter(GetDictionaryFilePath(filePath)))
-            using (var postingsStream = _factory.CreateFileStream(GetPostingsFilePath(filePath), FileMode.Create))
+            using (var dictionaryStreamWriter = _factory.CreateDictionaryStreamWriter(GetDictionaryFilePath(baseFilePath)))
+            using (var postingsStream = _factory.CreateDocumentIdsStream(GetPostingsFilePath(baseFilePath), FileMode.Create))
             {
                 foreach (var pair in pairs)
                 {
                     dictionaryStreamWriter.WriteLine(pair.Key);
-                    var bytes = _encoder.EncodeNumbers(GetNumbersForEncoding(pair.Value));
+                    var bytes = _encoder.EncodeNumbers(_numberLengthReducer.GetNumbersForEncoding(pair.Value));
                     postingsStream.Write(bytes, 0, bytes.Length);
                 }
             }
@@ -41,7 +43,7 @@ namespace Lab6.IndexCompression
         public IEnumerable<KeyValuePair<string, HashSet<int>>> DeserializeByLine(string filePath)
         {
             using (var dictionaryStreamReader = _factory.CreateStreamReader(GetDictionaryFilePath(filePath)))
-            using (var postingsStream = _factory.CreateFileStream(GetPostingsFilePath(filePath), FileMode.Open))
+            using (var postingsStream = _factory.CreateDocumentIdsStream(GetPostingsFilePath(filePath), FileMode.Open))
             {
                 var postingSet = new HashSet<int>();
                 int prev = 0;
@@ -82,18 +84,5 @@ namespace Lab6.IndexCompression
         {
             return $"{baseFilePath}.{PostingsFileSuffix}";
         }
-
-        //returns difference between numbers to reduce number of bytes. separates sets by zeros
-        private static IEnumerable<int> GetNumbersForEncoding(HashSet<int> postingSet)
-        {
-            int prev = 0;
-            foreach (var i in postingSet.OrderBy(i => i))
-            {
-                yield return i - prev;
-                prev = i;
-            }
-
-            yield return 0;
-        } 
     }
 }

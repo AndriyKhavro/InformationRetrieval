@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Lab6.IndexCompression;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace InformationRetrieval.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class VariableByteNumberEncoderTests
     {
         private VariableByteNumberEncoder _target;
 
-        [SetUp]
+        [TestInitialize]
         public void SetUp()
         {
             _target = new VariableByteNumberEncoder();
         }
 
-        [Test]
+        [TestMethod]
         public void Numbers_after_encoding_and_decoding_should_be_the_same()
         {
             for (int i = 0; i < 100; i++)

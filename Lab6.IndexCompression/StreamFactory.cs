@@ -9,12 +9,12 @@ namespace Lab6.IndexCompression
             return new StreamReader(filepath);
         }
 
-        public TextWriter CreateStreamWriter(string filepath)
+        public TextWriter CreateDictionaryStreamWriter(string filepath)
         {
             return new StreamWriter(filepath);
         }
 
-        public Stream CreateFileStream(string filepath, FileMode mode)
+        public Stream CreateDocumentIdsStream(string filepath, FileMode mode)
         {
             return new FileStream(filepath, mode);
         }

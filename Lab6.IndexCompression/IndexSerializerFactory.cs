@@ -15,7 +15,8 @@ namespace Lab6.IndexCompression
                 case Compression.No:
                     return new SimpleIndexSerializer();
                 case Compression.Yes:
-                    return new CompressingIndexSerializer(new StreamFactory(), new VariableByteNumberEncoder());
+                    return new CompressingIndexSerializer(new StreamFactory(), new VariableByteNumberEncoder(),
+                        new NumberLengthReducer());
                 default:
                     throw new ArgumentOutOfRangeException(nameof(compression), compression, "Unknown compression type");
             }
