@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlUtility", "XmlUtility\Xm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab7.ZoneScoring", "Lab7.ZoneScoring\Lab7.ZoneScoring.csproj", "{6D449308-691D-45CE-BCFE-85A3F84540E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lab11.Fb2Search", "Lab11.Fb2Search\Lab11.Fb2Search.csproj", "{1971318B-A046-4022-8563-A6DA73F2E8DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{6D449308-691D-45CE-BCFE-85A3F84540E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D449308-691D-45CE-BCFE-85A3F84540E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D449308-691D-45CE-BCFE-85A3F84540E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1971318B-A046-4022-8563-A6DA73F2E8DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1971318B-A046-4022-8563-A6DA73F2E8DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1971318B-A046-4022-8563-A6DA73F2E8DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1971318B-A046-4022-8563-A6DA73F2E8DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -28,11 +28,9 @@ namespace Lab7.ZoneScoring
 
                 return
                     xElement.XPathSelectElements("child::*")
-                        .Select(
-                            e =>
-                                new Tuple<DocumentZone, string>(
+                        .Select(e => new Tuple<DocumentZone, string>(
                                     new DocumentZone(e.Name.LocalName,
-                                        Decimal.Parse(e.Attribute(XName.Get("weight")).Value, NumberFormatInfo.InvariantInfo)), e.Value)).ToArray();
+                                    decimal.Parse(e.Attribute(XName.Get("weight")).Value, NumberFormatInfo.InvariantInfo)), e.Value)).ToArray();
             }
         }
     }
